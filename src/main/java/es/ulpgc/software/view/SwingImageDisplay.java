@@ -1,6 +1,8 @@
 package es.ulpgc.software.view;
 
 import es.ulpgc.software.model.Image;
+import es.ulpgc.software.viewport.Dimension;
+import es.ulpgc.software.viewport.ViewPort;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,7 +17,7 @@ import java.util.List;
 
 import static java.awt.Color.BLACK;
 
-public class SwingImageDisplay extends JPanel implements ImageDisplay{
+public class SwingImageDisplay extends JPanel implements ImageDisplay {
     public Image image;
     private BufferedImage bitmap;
     private Shift shift = Shift.Null;
@@ -63,9 +65,10 @@ public class SwingImageDisplay extends JPanel implements ImageDisplay{
     }
 
     @Override
-    public void paint(String id, int offset){
-        paints.add(new Paint(id, offset));
-        repaint();
+    public void paint(Graphics g){
+        g.setColor(BLACK);
+        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        drawImages(g);
     }
 
     @Override
@@ -95,10 +98,9 @@ public class SwingImageDisplay extends JPanel implements ImageDisplay{
     }
 
     @Override
-    public void paint(Graphics g){
-        g.setColor(BLACK);
-        g.fillRect(0, 0, this.getWidth(), this.getHeight());
-        drawImages(g);
+    public void paint(String id, int offset){
+        paints.add(new Paint(id, offset));
+        repaint();
     }
 
     HashMap<String, BufferedImage> images = new HashMap<>();
@@ -106,8 +108,8 @@ public class SwingImageDisplay extends JPanel implements ImageDisplay{
         for (Paint paint : paints){
             checkGallery(paint);
             bitmap = images.get(paint.id());
-            ViewPort viewPort = ViewPort.ofSize(this.getWidth(), this.getHeight());
-            ViewPort fitted = viewPort.fit(bitmap.getWidth(), bitmap.getHeight());
+            ViewPort viewport = new ViewPort(new es.ulpgc.software.viewport.Dimension(this.getWidth(), this.getHeight()));
+            es.ulpgc.software.viewport.Dimension fitted = viewport.resize(new Dimension(bitmap.getWidth(), bitmap.getHeight()));
             int x =  ((this.getWidth() - fitted.width())/2);
             int y = ((this.getHeight() - fitted.height())/2);
             g.drawImage(bitmap,x + paint.offset, y, fitted.width(), fitted.height(), null);
@@ -123,10 +125,10 @@ public class SwingImageDisplay extends JPanel implements ImageDisplay{
         }
     }
 
-    private BufferedImage load(String name){
+    private BufferedImage load(String name) {
         try {
             return ImageIO.read(new File(name));
-        } catch (IOException e){
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

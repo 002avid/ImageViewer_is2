@@ -1,6 +1,6 @@
 package es.ulpgc.software.control;
 
-import es.ulpgc.software.view.ImagePresenter;
+import es.ulpgc.software.presenter.ImagePresenter;
 
 public class NextCommand implements Command{
 

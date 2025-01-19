@@ -1,6 +1,6 @@
 package es.ulpgc.software;
 
-import es.ulpgc.software.view.ImagePresenter;
+import es.ulpgc.software.presenter.ImagePresenter;
 import es.ulpgc.software.view.MainFrame;
 import es.ulpgc.software.control.NextCommand;
 import es.ulpgc.software.control.PreviousCommand;
@@ -20,6 +20,6 @@ public class Main {
     }
 
     private static Image image(){
-        return new FileImageLoader(new File("C:/Users/usuario/OneDrive/Imágenes/Fotos")).load();
+        return new FileImageLoader(new File("C:/Users/usuario/OneDrive/Imágenes/Fotones")).load();
     }
 }

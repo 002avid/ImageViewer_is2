@@ -1,6 +1,7 @@
-package es.ulpgc.software.view;
+package es.ulpgc.software.presenter;
 
 import es.ulpgc.software.model.Image;
+import es.ulpgc.software.view.ImageDisplay;
 
 import static es.ulpgc.software.view.ImageDisplay.*;
 
